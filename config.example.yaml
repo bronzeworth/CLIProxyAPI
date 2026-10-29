@@ -921,7 +921,8 @@ upstream:
 
 # OAuth/file-backed credentials. Token material stays in the credential store.
 oauth:
-  # Authentication directory (supports ~ for home directory)
+  # Authentication directory. Supported home forms: "~", "~/path" and "~\path" (current user's home).
+  # Other "~"-prefixed values such as "~bob/path" are rejected.
   auth-dir: "~/.cli-proxy-api"
 
   # Core auth auto-refresh and manual refresh-all worker pool size (OAuth/file-based auth token refresh).

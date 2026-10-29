@@ -2,6 +2,7 @@ package util
 
 import (
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -82,6 +83,32 @@ func TestResolveAuthDir(t *testing.T) {
 			}
 			if got != tt.want {
 				t.Errorf("ResolveAuthDir(%q) = %q, want %q", tt.in, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestResolveAuthDirRejectsTildeUser(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+	t.Setenv("USERPROFILE", home)
+
+	tests := []struct {
+		name string
+		in   string
+	}{
+		{name: "tilde user with path", in: "~bob/auths"},
+		{name: "tilde user alone", in: "~bob"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ResolveAuthDir(tt.in)
+			if err == nil {
+				t.Fatalf("ResolveAuthDir(%q) = %q, want error", tt.in, got)
+			}
+			if !strings.Contains(err.Error(), tt.in) {
+				t.Errorf("ResolveAuthDir(%q) error %q does not name the value", tt.in, err)
 			}
 		})
 	}
