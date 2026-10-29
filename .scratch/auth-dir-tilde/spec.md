@@ -27,7 +27,7 @@ behaviour for all other inputs is pinned by tests.
 
 - The Auth Directory resolver returns a wrapped error for any `~`-prefixed value that is not Home Shorthand. The error names the offending value and keeps the existing `resolve auth dir:` prefix.
 - All other inputs keep their current results (empty, `~`, `~/x`, `~\x`, absolute, relative).
-- No caller changes: every caller already handles the resolver's error return.
+- Callers must not continue with an unresolved value. (Review correction: the first draft claimed every caller already handled the error; `DoVertexImport` did not and is covered by ticket 03.)
 - The config example comment is clarified to list the supported forms.
 
 ## Testing Decisions
