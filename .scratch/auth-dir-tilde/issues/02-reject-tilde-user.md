@@ -6,7 +6,7 @@
 
 **Status:** ready-for-agent
 
-- [ ] Test first (red): `~bob/auths` and `~bob` return an error naming the value
-- [ ] Tests from 01 still pass unchanged
-- [ ] `config.example.yaml` auth-dir comment lists the supported `~` forms
-- [ ] `go build ./cmd/server` succeeds; `gofmt -l` clean
+- [x] Test first (red): `~bob/auths` and `~bob` return an error naming the value
+- [x] Tests from 01 still pass unchanged
+- [x] `config.example.yaml` auth-dir comment lists the supported `~` forms
+- [x] `go build ./cmd/server` succeeds; `gofmt -l` clean
