@@ -2,6 +2,7 @@ package util
 
 import (
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -99,6 +100,8 @@ func TestResolveAuthDirRejectsTildeUser(t *testing.T) {
 	}{
 		{name: "tilde user with path", in: "~bob/auths"},
 		{name: "tilde user alone", in: "~bob"},
+		{name: "double tilde", in: "~~"},
+		{name: "tilde drive path", in: `~C:\x`},
 	}
 
 	for _, tt := range tests {
@@ -107,7 +110,7 @@ func TestResolveAuthDirRejectsTildeUser(t *testing.T) {
 			if err == nil {
 				t.Fatalf("ResolveAuthDir(%q) = %q, want error", tt.in, got)
 			}
-			if !strings.Contains(err.Error(), tt.in) {
+			if !strings.Contains(err.Error(), strconv.Quote(tt.in)) {
 				t.Errorf("ResolveAuthDir(%q) error %q does not name the value", tt.in, err)
 			}
 		})

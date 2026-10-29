@@ -24,9 +24,12 @@ func DoVertexImport(cfg *config.Config, keyPath string, prefix string) {
 	if cfg == nil {
 		cfg = &config.Config{}
 	}
-	if resolved, errResolve := util.ResolveAuthDir(cfg.AuthDir); errResolve == nil {
-		cfg.AuthDir = resolved
+	resolved, errResolve := util.ResolveAuthDir(cfg.AuthDir)
+	if errResolve != nil {
+		log.Errorf("vertex-import: %v", errResolve)
+		return
 	}
+	cfg.AuthDir = resolved
 	rawPath := strings.TrimSpace(keyPath)
 	if rawPath == "" {
 		log.Errorf("vertex-import: missing service account key path")
